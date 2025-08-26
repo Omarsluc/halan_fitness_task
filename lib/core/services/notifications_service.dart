@@ -1,10 +1,12 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class NotificationService {
-  final FlutterLocalNotificationsPlugin _notifications = FlutterLocalNotificationsPlugin();
+  final FlutterLocalNotificationsPlugin _notifications =
+      FlutterLocalNotificationsPlugin();
 
   Future<void> initialize() async {
-    const androidSettings = AndroidInitializationSettings('@mipmap/ic_launcher');
+    const androidSettings =
+        AndroidInitializationSettings('@drawable/ic_notification');
     const iosSettings = DarwinInitializationSettings();
     const settings = InitializationSettings(
       android: androidSettings,
@@ -21,6 +23,7 @@ class NotificationService {
       channelDescription: 'Notifications for workout reminders',
       importance: Importance.max,
       priority: Priority.high,
+      icon: '@drawable/ic_notification',
     );
 
     const iosDetails = DarwinNotificationDetails();
@@ -44,6 +47,7 @@ class NotificationService {
       channelDescription: 'Notifications for completed workouts',
       importance: Importance.max,
       priority: Priority.high,
+      icon: '@drawable/ic_notification',
     );
 
     const iosDetails = DarwinNotificationDetails();

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:halan_fitnessapp_task/features/dashboard/ui/widgets/exercise_card.dart';
 import 'package:halan_fitnessapp_task/features/dashboard/ui/widgets/exercise_filters.dart';
 import '../../../core/di/dependency_injection.dart';
+import '../../../core/utilites/dimensions.dart';
 import '../../../core/widgets/error_widget.dart';
 import '../../../core/widgets/exercise_search_bar.dart';
 import '../../../core/widgets/loading_widget.dart';
@@ -35,13 +37,13 @@ class DashboardView extends StatelessWidget {
             return Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
                   child: Column(
                     children: [
                       ExerciseSearchBar(
                         onSearch: (query) => context.read<DashboardCubit>().searchExercises(query),
                       ),
-                      const SizedBox(height: 16),
+                      SizedBox(height: 16.h),
                       ExerciseFilters(
                         selectedBodyPart: state.selectedBodyPart,
                         selectedEquipment: state.selectedEquipment,

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lucide_icons/lucide_icons.dart';
 
 class CustomErrorWidget extends StatelessWidget {
   final String message;
@@ -27,7 +26,7 @@ class CustomErrorWidget extends StatelessWidget {
                 shape: BoxShape.circle,
               ),
               child: const Icon(
-                LucideIcons.dumbbell,
+                Icons.run_circle_outlined,
                 color: Colors.red,
                 size: 48,
               ),
@@ -67,7 +66,7 @@ class CustomErrorWidget extends StatelessWidget {
                 padding:
                 const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
               ),
-              icon: const Icon(LucideIcons.refreshCcw),
+              icon: const Icon(Icons.refresh),
               label: const Text(
                 "Try Again",
                 style: TextStyle(fontWeight: FontWeight.bold),

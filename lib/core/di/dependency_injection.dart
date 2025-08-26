@@ -1,14 +1,16 @@
 import 'package:get_it/get_it.dart';
 import 'package:dio/dio.dart';
-
 import '../../features/app/cubit/app_cubit.dart';
 import '../../features/dashboard/data/repo/exercise_repo.dart';
 import '../../features/dashboard/data/repo/exercise_repo_impl.dart';
 import '../../features/dashboard/logic/dashboard_cubit.dart';
+import '../../features/excercise/logic/exercise_details_cubit.dart';
+import '../../features/progress/data/repo/workout_repo.dart';
+import '../../features/progress/data/repo/workout_repo_impl.dart';
 import '../api/api_client.dart';
 import '../models/exercise_remote_data_model.dart';
 import '../services/notifications_service.dart';
-
+import '../services/workout_local_data_storage.dart';
 
 final getIt = GetIt.instance;
 
@@ -33,18 +35,28 @@ Future<void> configureDependencies() async {
   getIt.registerLazySingleton<ApiClient>(() => ApiClient(getIt()));
 
   getIt.registerLazySingleton<NotificationService>(() => NotificationService());
+  // Initialize notifications once during DI setup
+  await getIt<NotificationService>().initialize();
 
   getIt.registerLazySingleton<ExerciseRemoteDataSource>(
-        () => ExerciseRemoteDataSource(getIt()),
+    () => ExerciseRemoteDataSource(getIt()),
+  );
+
+  getIt.registerLazySingleton<WorkoutLocalDataSource>(
+    () => WorkoutLocalDataSource(),
   );
 
   getIt.registerLazySingleton<ExerciseRepository>(
-        () => ExerciseRepositoryImpl(getIt()),
+    () => ExerciseRepositoryImpl(getIt()),
+  );
+
+  getIt.registerLazySingleton<WorkoutRepository>(
+    () => WorkoutRepositoryImpl(getIt()),
   );
 
   // Cubits
   getIt.registerLazySingleton<AppCubit>(() => AppCubit());
+  getIt.registerFactory<ExerciseDetailCubit>(
+      () => ExerciseDetailCubit(getIt(), getIt(), getIt()));
   getIt.registerFactory<DashboardCubit>(() => DashboardCubit(getIt()));
-
-
 }

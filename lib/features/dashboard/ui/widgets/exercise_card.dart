@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
+import '../../../excercise/ui/excercise_details_screen.dart';
 import '../../data/model/exercise_model.dart';
 
 class ExerciseCard extends StatelessWidget {
@@ -16,11 +19,15 @@ class ExerciseCard extends StatelessWidget {
     return Card(
       child: InkWell(
         onTap: () {
-          // Navigator.of(context).push(
-          //   MaterialPageRoute(
-          //     builder: (context) {},
-          //   ),
-          // );
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) {
+                log(exercise.gifUrl);
+                return ExerciseDetailScreen(exerciseId: exercise.id);
+
+              },
+            ),
+          );
         },
         borderRadius: BorderRadius.circular(12),
         child: Padding(

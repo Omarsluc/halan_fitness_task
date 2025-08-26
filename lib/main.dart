@@ -9,6 +9,7 @@ import 'features/app/cubit/app_cubit.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await ScreenUtil.ensureScreenSize();
 
   // Initialize Hive
   await Hive.initFlutter();

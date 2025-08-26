@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ExerciseFilters extends StatelessWidget {
   final String? selectedBodyPart;
@@ -40,31 +41,38 @@ class ExerciseFilters extends StatelessWidget {
             Expanded(
               child: DropdownButtonFormField<String>(
                 value: selectedBodyPart,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
+                  labelStyle: Theme.of(context).textTheme.titleSmall,
                   labelText: 'Body Part',
-                  border: OutlineInputBorder(),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(12)),
+                  ),
                 ),
                 items: bodyParts.map((part) {
                   return DropdownMenuItem(
                     value: part,
-                    child: Text(part.toUpperCase()),
+                    child: Text(part),
                   );
                 }).toList(),
                 onChanged: onBodyPartChanged,
               ),
             ),
-            const SizedBox(width: 16),
+            SizedBox(width: 12.w),
             Expanded(
               child: DropdownButtonFormField<String>(
+                isExpanded: true,
                 value: selectedEquipment,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
+                  labelStyle: Theme.of(context).textTheme.titleSmall,
                   labelText: 'Equipment',
-                  border: OutlineInputBorder(),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(12))
+                  ),
                 ),
                 items: equipment.map((eq) {
                   return DropdownMenuItem(
                     value: eq,
-                    child: Text(eq.toUpperCase()),
+                    child: Text(eq),
                   );
                 }).toList(),
                 onChanged: onEquipmentChanged,
