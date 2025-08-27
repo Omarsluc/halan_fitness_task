@@ -36,4 +36,19 @@ class ExerciseRepositoryImpl implements ExerciseRepository {
   Future<List<Exercise>> getExercisesByTarget(String target) async {
     return await _remoteDataSource.getExercisesByTarget(target);
   }
+
+  @override
+  Future<List<String>> getBodyParts() async {
+    return await _remoteDataSource.getBodyParts();
+  }
+
+  @override
+  Future<List<String>> getEquipmentTypes() async {
+    return await _remoteDataSource.getEquipmentTypes();
+  }
+
+  @override
+  Future<List<String>> getTargetMuscles() async {
+    return await _remoteDataSource.getTargetMuscles();
+  }
 }

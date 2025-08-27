@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../data/model/exercise_model.dart';
 import '../../../../core/theming/colors.dart';
+import '../../../../core/widgets/exercise_share_dialog.dart';
 
 class ExerciseCard extends StatelessWidget {
   final Exercise exercise;
@@ -84,10 +85,24 @@ class ExerciseCard extends StatelessWidget {
                           ),
                           borderRadius: BorderRadius.circular(16),
                         ),
-                        child: Icon(
-                          Icons.fitness_center,
-                          size: 30.sp,
-                          color: ColorsManager.secondaryColor,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.fitness_center,
+                              size: 30.sp,
+                              color: ColorsManager.secondaryColor,
+                            ),
+                            SizedBox(height: 4.h),
+                            Text(
+                              'Loading...',
+                              style: TextStyle(
+                                fontSize: 8.sp,
+                                color: ColorsManager.secondaryColor,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                       errorWidget: (context, url, error) => Container(
@@ -104,10 +119,24 @@ class ExerciseCard extends StatelessWidget {
                           ),
                           borderRadius: BorderRadius.circular(16),
                         ),
-                        child: Icon(
-                          Icons.fitness_center,
-                          size: 30.sp,
-                          color: Theme.of(context).scaffoldBackgroundColor,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.broken_image,
+                              size: 30.sp,
+                              color: ColorsManager.greyColor,
+                            ),
+                            SizedBox(height: 4.h),
+                            Text(
+                              'No Image',
+                              style: TextStyle(
+                                fontSize: 8.sp,
+                                color: ColorsManager.greyColor,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
@@ -120,35 +149,43 @@ class ExerciseCard extends StatelessWidget {
                     children: [
                       Text(
                         exercise.name.toUpperCase(),
-                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16.sp,
-                          color: ColorsManager.darkColor,
-                        ),
+                        style:
+                            Theme.of(context).textTheme.titleMedium?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16.sp,
+                                  color: ColorsManager.darkColor,
+                                ),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
                       SizedBox(height: 12.h),
-                      _buildChip(context, exercise.bodyPart, Icons.accessibility_new),
+                      _buildChip(
+                          context, exercise.bodyPart, Icons.accessibility_new),
                       SizedBox(height: 6.h),
-                      _buildChip(context, exercise.equipment, Icons.fitness_center),
+                      _buildChip(
+                          context, exercise.equipment, Icons.fitness_center),
                       SizedBox(height: 6.h),
                       _buildChip(context, exercise.target, Icons.my_location),
                     ],
                   ),
                 ),
                 SizedBox(width: 8.w),
-                Container(
-                  padding: EdgeInsets.all(8.w),
-                  decoration: BoxDecoration(
-                    color: ColorsManager.primaryColor.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Icon(
-                    Icons.chevron_right,
-                    color: ColorsManager.primaryColor,
-                    size: 20.sp,
-                  ),
+                Row(
+                  children: [
+                    // Chevron Icon
+                    Container(
+                      padding: EdgeInsets.all(8.w),
+                      decoration: BoxDecoration(
+                        color: ColorsManager.primaryColor.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Icon(
+                        Icons.chevron_right,
+                        color: ColorsManager.primaryColor,
+                        size: 20.sp,
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -182,15 +219,22 @@ class ExerciseCard extends StatelessWidget {
             child: Text(
               label.toUpperCase(),
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                fontWeight: FontWeight.w600,
-                fontSize: 11.sp,
-              ),
+                    fontWeight: FontWeight.w600,
+                    fontSize: 11.sp,
+                  ),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
           ),
         ],
       ),
+    );
+  }
+
+  void _showShareDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => ExerciseShareDialog(exercise: exercise),
     );
   }
 }

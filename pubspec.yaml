@@ -45,6 +45,7 @@ dependencies:
   intl: ^0.18.1
   uuid: ^4.1.0
   connectivity_plus: ^6.1.5
+  share_plus: ^7.2.1
 
 
   cupertino_icons: ^1.0.8

@@ -1,4 +1,3 @@
-
 import '../model/exercise_model.dart';
 
 abstract class ExerciseRepository {
@@ -8,4 +7,9 @@ abstract class ExerciseRepository {
   Future<List<Exercise>> getExercisesByBodyPart(String bodyPart);
   Future<List<Exercise>> getExercisesByEquipment(String equipment);
   Future<List<Exercise>> getExercisesByTarget(String target);
+
+  // Category methods
+  Future<List<String>> getBodyParts();
+  Future<List<String>> getEquipmentTypes();
+  Future<List<String>> getTargetMuscles();
 }

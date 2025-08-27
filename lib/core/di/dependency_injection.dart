@@ -16,6 +16,7 @@ import '../services/notifications_service.dart';
 import '../services/workout_local_data_storage.dart';
 import '../services/check_connection_service.dart';
 import '../services/connection_dialog_service.dart';
+import '../services/exercise_sharing_service.dart';
 
 final getIt = GetIt.instance;
 
@@ -51,6 +52,11 @@ Future<void> configureDependencies() async {
   // Register connection dialog service
   getIt.registerLazySingleton<ConnectionDialogService>(
     () => ConnectionDialogService(),
+  );
+
+  // Register exercise sharing service
+  getIt.registerLazySingleton<ExerciseSharingService>(
+    () => ExerciseSharingService(),
   );
 
   getIt.registerLazySingleton<ExerciseRemoteDataSource>(

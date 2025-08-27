@@ -1,5 +1,3 @@
-
-
 import '../../features/dashboard/data/model/exercise_model.dart';
 import '../api/api_client.dart';
 
@@ -9,10 +7,8 @@ class ExerciseRemoteDataSource {
 
   ExerciseRemoteDataSource(this._apiClient);
 
-  String _constructFullUrl(String? gifUrl) {
-    if (gifUrl == null || gifUrl.isEmpty) return '';
-    if (gifUrl.startsWith('http')) return gifUrl;
-    return '$_baseUrl$gifUrl';
+  String _constructImageUrl(String exerciseId) {
+    return '$_baseUrl/exercises/exercise/$exerciseId/image';
   }
 
   Future<List<Exercise>> getExercises({int offset = 0, int limit = 20}) async {
@@ -24,9 +20,10 @@ class ExerciseRemoteDataSource {
     final List<dynamic> data = response.data as List<dynamic>;
     return data.map((json) {
       final exercise = json as Map<String, dynamic>;
-      // Ensure gifUrl is a full URL
-      if (exercise['gifUrl'] != null) {
-        exercise['gifUrl'] = _constructFullUrl(exercise['gifUrl']);
+      // Construct image URL using exercise ID
+      final exerciseId = exercise['id']?.toString() ?? '';
+      if (exerciseId.isNotEmpty) {
+        exercise['gifUrl'] = _constructImageUrl(exerciseId);
       }
       return Exercise.fromJson(exercise);
     }).toList();
@@ -38,9 +35,10 @@ class ExerciseRemoteDataSource {
     final List<dynamic> data = response.data as List<dynamic>;
     return data.map((json) {
       final exercise = json as Map<String, dynamic>;
-      // Ensure gifUrl is a full URL
-      if (exercise['gifUrl'] != null) {
-        exercise['gifUrl'] = _constructFullUrl(exercise['gifUrl']);
+      // Construct image URL using exercise ID
+      final exerciseId = exercise['id']?.toString() ?? '';
+      if (exerciseId.isNotEmpty) {
+        exercise['gifUrl'] = _constructImageUrl(exerciseId);
       }
       return Exercise.fromJson(exercise);
     }).toList();
@@ -49,10 +47,8 @@ class ExerciseRemoteDataSource {
   Future<Exercise> getExerciseById(String id) async {
     final response = await _apiClient.get('/exercises/exercise/$id');
     final exercise = response.data as Map<String, dynamic>;
-    // Ensure gifUrl is a full URL
-    if (exercise['gifUrl'] != null) {
-      exercise['gifUrl'] = _constructFullUrl(exercise['gifUrl']);
-    }
+    // Construct image URL using exercise ID
+    exercise['gifUrl'] = _constructImageUrl(id);
     return Exercise.fromJson(exercise);
   }
 
@@ -62,9 +58,10 @@ class ExerciseRemoteDataSource {
     final List<dynamic> data = response.data as List<dynamic>;
     return data.map((json) {
       final exercise = json as Map<String, dynamic>;
-      // Ensure gifUrl is a full URL
-      if (exercise['gifUrl'] != null) {
-        exercise['gifUrl'] = _constructFullUrl(exercise['gifUrl']);
+      // Construct image URL using exercise ID
+      final exerciseId = exercise['id']?.toString() ?? '';
+      if (exerciseId.isNotEmpty) {
+        exercise['gifUrl'] = _constructImageUrl(exerciseId);
       }
       return Exercise.fromJson(exercise);
     }).toList();
@@ -76,9 +73,10 @@ class ExerciseRemoteDataSource {
     final List<dynamic> data = response.data as List<dynamic>;
     return data.map((json) {
       final exercise = json as Map<String, dynamic>;
-      // Ensure gifUrl is a full URL
-      if (exercise['gifUrl'] != null) {
-        exercise['gifUrl'] = _constructFullUrl(exercise['gifUrl']);
+      // Construct image URL using exercise ID
+      final exerciseId = exercise['id']?.toString() ?? '';
+      if (exerciseId.isNotEmpty) {
+        exercise['gifUrl'] = _constructImageUrl(exerciseId);
       }
       return Exercise.fromJson(exercise);
     }).toList();
@@ -90,11 +88,33 @@ class ExerciseRemoteDataSource {
     final List<dynamic> data = response.data as List<dynamic>;
     return data.map((json) {
       final exercise = json as Map<String, dynamic>;
-      // Ensure gifUrl is a full URL
-      if (exercise['gifUrl'] != null) {
-        exercise['gifUrl'] = _constructFullUrl(exercise['gifUrl']);
+      // Construct image URL using exercise ID
+      final exerciseId = exercise['id']?.toString() ?? '';
+      if (exerciseId.isNotEmpty) {
+        exercise['gifUrl'] = _constructImageUrl(exerciseId);
       }
       return Exercise.fromJson(exercise);
     }).toList();
+  }
+
+  /// Get all available body parts (categories)
+  Future<List<String>> getBodyParts() async {
+    final response = await _apiClient.get('/exercises/bodyPartList');
+    final List<dynamic> data = response.data as List<dynamic>;
+    return data.map((part) => part.toString()).toList();
+  }
+
+  /// Get all available equipment types
+  Future<List<String>> getEquipmentTypes() async {
+    final response = await _apiClient.get('/exercises/equipmentList');
+    final List<dynamic> data = response.data as List<dynamic>;
+    return data.map((equipment) => equipment.toString()).toList();
+  }
+
+  /// Get all available target muscles
+  Future<List<String>> getTargetMuscles() async {
+    final response = await _apiClient.get('/exercises/targetList');
+    final List<dynamic> data = response.data as List<dynamic>;
+    return data.map((target) => target.toString()).toList();
   }
 }

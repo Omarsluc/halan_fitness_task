@@ -10,6 +10,8 @@ import '../../../core/widgets/Loading_widget.dart';
 import '../../../core/widgets/error_widget.dart';
 import '../../../core/widgets/log_exercise_dialog.dart';
 import '../../../core/widgets/workout_success_animation.dart';
+import '../../../core/widgets/exercise_share_dialog.dart';
+import '../../dashboard/data/model/exercise_model.dart';
 import '../logic/exercise_details_cubit.dart';
 import '../logic/exercise_details_state.dart';
 
@@ -331,11 +333,7 @@ class _ExerciseDetailViewState extends State<ExerciseDetailView> {
                         Expanded(
                           child: Text(
                             exercise.name.toUpperCase(),
-                            style: TextStyle(
-                              fontSize: 20.sp,
-                              fontWeight: FontWeight.bold,
-                              color: ColorsManager.darkColor,
-                            ),
+                            style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700)
                           ),
                         ),
                       ],
@@ -364,7 +362,7 @@ class _ExerciseDetailViewState extends State<ExerciseDetailView> {
               Container(
                 padding: EdgeInsets.all(20.w),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Theme.of(context).scaffoldBackgroundColor.withAlpha(30),
                   borderRadius: BorderRadius.circular(20),
                   boxShadow: [
                     BoxShadow(
@@ -394,11 +392,7 @@ class _ExerciseDetailViewState extends State<ExerciseDetailView> {
                         SizedBox(width: 12.w),
                         Text(
                           'Instructions',
-                          style: TextStyle(
-                            fontSize: 18.sp,
-                            fontWeight: FontWeight.bold,
-                            color: ColorsManager.darkColor,
-                          ),
+                          style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700)
                         ),
                       ],
                     ),
@@ -439,11 +433,7 @@ class _ExerciseDetailViewState extends State<ExerciseDetailView> {
                                 Expanded(
                                   child: Text(
                                     entry.value,
-                                    style: TextStyle(
-                                      fontSize: 14.sp,
-                                      color: ColorsManager.darkColor,
-                                      height: 1.5,
-                                    ),
+                                    style: Theme.of(context).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w700)
                                   ),
                                 ),
                               ],
@@ -489,7 +479,7 @@ class _ExerciseDetailViewState extends State<ExerciseDetailView> {
       margin: EdgeInsets.only(bottom: 12.h),
       padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).scaffoldBackgroundColor.withAlpha(200),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
           color: ColorsManager.primaryColor.withOpacity(0.2),
@@ -533,11 +523,7 @@ class _ExerciseDetailViewState extends State<ExerciseDetailView> {
                 SizedBox(height: 4.h),
                 Text(
                   value.toUpperCase(),
-                  style: TextStyle(
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.bold,
-                    color: ColorsManager.darkColor,
-                  ),
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700)
                 ),
               ],
             ),
@@ -621,12 +607,10 @@ class _ExerciseDetailViewState extends State<ExerciseDetailView> {
     );
   }
 
-  void _shareExercise(exercise) {
-    // Share.share(
-    //   'Check out this exercise: ${exercise.name}\n'
-    //       'Body Part: ${exercise.bodyPart}\n'
-    //       'Equipment: ${exercise.equipment}\n'
-    //       'Target: ${exercise.target}',
-    // );
+  void _shareExercise(Exercise exercise) {
+    showDialog(
+      context: context,
+      builder: (context) => ExerciseShareDialog(exercise: exercise),
+    );
   }
 }

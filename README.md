@@ -13,8 +13,10 @@ A modern, feature-rich Flutter fitness application designed to help users track 
 ### 🔍 Exercise Management
 - **Search & Filter**: Find exercises by body part, equipment, or custom search terms
 - **Exercise Details**: Comprehensive exercise information with instructions and images
+- **Exercise Images**: High-quality exercise images from dedicated image endpoint
+- **Categories**: Organized by body parts, equipment types, and target muscles
 - **Workout Logging**: Record sets, reps, and weights for each exercise
-- **Exercise Sharing**: Share exercises with friends and family
+- **Exercise Sharing**: Multiple sharing options with customizable formats and social media optimization
 
 ### 📊 Progress Analytics
 - **Weekly Charts**: Visual representation of your workout frequency
@@ -33,6 +35,12 @@ A modern, feature-rich Flutter fitness application designed to help users track 
 - **Smart Error Handling**: Automatic connection failure detection and user notification
 - **Retry Mechanism**: Built-in retry functionality for failed network requests
 - **User-Friendly Dialogs**: Clear connection status messages with actionable options
+
+### 📤 Exercise Sharing
+- **Multiple Formats**: Share exercises in basic, detailed, tips, or social media formats
+- **Custom Messages**: Add personal messages and hashtags to your shares
+- **Social Media Ready**: Optimized text for various social platforms
+- **Quick Access**: Share buttons available on exercise cards and detail screens
 
 ## 🏗️ Architecture
 
@@ -86,6 +94,7 @@ lib/
 - **Flutter Local Notifications**: Push notifications
 - **Connectivity Plus**: Network connectivity monitoring
 - **Intl**: Internationalization support
+- **Share Plus**: Cross-platform sharing functionality
 
 ## 🚀 Getting Started
 
@@ -188,14 +197,86 @@ Future<void> loadData() async {
 }
 ```
 
-### API Configuration
-Update the API base URL and endpoints in the configuration files:
+#### Exercise Sharing Examples:
+
+**Share exercise with basic info:**
 ```dart
-// lib/core/api/api_config.dart
-class ApiConfig {
-  static const String baseUrl = 'YOUR_API_BASE_URL';
-  // ... other configurations
-}
+await ExerciseSharingService.shareExerciseAsText(exercise);
+```
+
+**Share exercise with workout tips:**
+```dart
+await ExerciseSharingService.shareExerciseWithTips(exercise);
+```
+
+**Share exercise for social media:**
+```dart
+await ExerciseSharingService.shareExerciseSocial(exercise);
+```
+
+**Share with custom message:**
+```dart
+await ExerciseSharingService.shareExerciseCustom(
+  exercise,
+  customMessage: 'Check out this amazing exercise!',
+  hashtags: '#Fitness #Workout #Exercise',
+);
+```
+
+**Share workout routine:**
+```dart
+await ExerciseSharingService.shareWorkoutRoutine(
+  exercises,
+  'Full Body Workout',
+);
+```
+
+#### Exercise Categories Examples:
+
+**Get all body parts (categories):**
+```dart
+final bodyParts = await exerciseRepository.getBodyParts();
+// Returns: ['back', 'cardio', 'chest', 'lower arms', 'lower legs', 'neck', 'shoulders', 'upper arms', 'upper legs', 'waist']
+```
+
+**Get all equipment types:**
+```dart
+final equipmentTypes = await exerciseRepository.getEquipmentTypes();
+// Returns: ['assisted', 'band', 'barbell', 'body weight', 'bosu ball', 'cable', 'dumbbell', 'elliptical machine', 'ez barbell', 'hammer', 'kettlebell', 'leverage machine', 'medicine ball', 'olympic barbell', 'resistance band', 'roller', 'rope', 'skierg machine', 'sled machine', 'smith machine', 'stability ball', 'stationary bike', 'stepmill machine', 'tire', 'trap bar', 'upper body ergometer', 'weighted', 'wheel roller']
+```
+
+**Get all target muscles:**
+```dart
+final targetMuscles = await exerciseRepository.getTargetMuscles();
+// Returns: ['abductors', 'abs', 'adductors', 'biceps', 'calves', 'cardiovascular system', 'delts', 'forearms', 'glutes', 'hamstrings', 'lats', 'levator scapulae', 'pectorals', 'quads', 'serratus anterior', 'spine', 'traps', 'triceps', 'upper back']
+```
+
+### API Configuration
+The app uses the ExerciseDB API with the following endpoints:
+
+**Base URL**: `https://exercisedb.p.rapidapi.com`
+
+**Main Endpoints**:
+- `GET /exercises` - Get all exercises with pagination
+- `GET /exercises/exercise/{id}` - Get exercise by ID
+- `GET /exercises/exercise/{id}/image` - Get exercise image/GIF
+- `GET /exercises/name/{name}` - Search exercises by name
+- `GET /exercises/bodyPart/{bodyPart}` - Get exercises by body part
+- `GET /exercises/equipment/{equipment}` - Get exercises by equipment
+- `GET /exercises/target/{target}` - Get exercises by target muscle
+
+**Category Endpoints**:
+- `GET /exercises/bodyPartList` - Get all available body parts
+- `GET /exercises/equipmentList` - Get all available equipment types
+- `GET /exercises/targetList` - Get all available target muscles
+
+Update the API configuration in `lib/core/di/dependency_injection.dart`:
+```dart
+dio.options.baseUrl = 'https://exercisedb.p.rapidapi.com';
+dio.options.headers = {
+  'X-RapidAPI-Key': 'YOUR_API_KEY',
+  'X-RapidAPI-Host': 'exercisedb.p.rapidapi.com',
+};
 ```
 
 ## 🧪 Testing
