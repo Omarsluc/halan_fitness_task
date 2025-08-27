@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../data/repo/exercise_repo.dart';
 import 'dashboard_state.dart';
+import '../../../core/services/check_connection_service.dart';
 
 class DashboardCubit extends Cubit<DashboardState> {
   final ExerciseRepository _exerciseRepository;
@@ -13,6 +14,19 @@ class DashboardCubit extends Cubit<DashboardState> {
     emit(state.copyWith(status: DashboardStatus.loading));
 
     try {
+      // Check internet connection first
+      final connectivityService = InternetConnectivityService.instance;
+      final hasConnection = await connectivityService.checkConnection();
+
+      if (!hasConnection) {
+        emit(state.copyWith(
+          status: DashboardStatus.error,
+          errorMessage:
+              'No internet connection. Please check your connection and try again.',
+        ));
+        return;
+      }
+
       final exercises = await _exerciseRepository.getExercises();
       emit(state.copyWith(
         status: DashboardStatus.success,
@@ -49,6 +63,19 @@ class DashboardCubit extends Cubit<DashboardState> {
     ));
 
     try {
+      // Check internet connection before search
+      final connectivityService = InternetConnectivityService.instance;
+      final hasConnection = await connectivityService.checkConnection();
+
+      if (!hasConnection) {
+        emit(state.copyWith(
+          status: DashboardStatus.error,
+          errorMessage:
+              'No internet connection. Please check your connection and try again.',
+        ));
+        return;
+      }
+
       final exercises = await _exerciseRepository.searchExercises(query);
       emit(state.copyWith(
         status: DashboardStatus.success,
@@ -71,9 +98,10 @@ class DashboardCubit extends Cubit<DashboardState> {
       return;
     }
 
-    final filtered = state.exercises.where((exercise) =>
-    exercise?.bodyPart.toLowerCase() == bodyPart.toLowerCase()
-    ).toList();
+    final filtered = state.exercises
+        .where((exercise) =>
+            exercise?.bodyPart.toLowerCase() == bodyPart.toLowerCase())
+        .toList();
 
     emit(state.copyWith(
       filteredExercises: filtered,
@@ -90,9 +118,10 @@ class DashboardCubit extends Cubit<DashboardState> {
       return;
     }
 
-    final filtered = state.exercises.where((exercise) =>
-    exercise.equipment.toLowerCase() == equipment.toLowerCase()
-    ).toList();
+    final filtered = state.exercises
+        .where((exercise) =>
+            exercise.equipment.toLowerCase() == equipment.toLowerCase())
+        .toList();
 
     emit(state.copyWith(
       filteredExercises: filtered,

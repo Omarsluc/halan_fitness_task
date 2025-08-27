@@ -14,6 +14,8 @@ import '../api/api_client.dart';
 import '../models/exercise_remote_data_model.dart';
 import '../services/notifications_service.dart';
 import '../services/workout_local_data_storage.dart';
+import '../services/check_connection_service.dart';
+import '../services/connection_dialog_service.dart';
 
 final getIt = GetIt.instance;
 
@@ -40,6 +42,16 @@ Future<void> configureDependencies() async {
   getIt.registerLazySingleton<NotificationService>(() => NotificationService());
   // Initialize notifications once during DI setup
   await getIt<NotificationService>().initialize();
+
+  // Register connectivity service
+  getIt.registerLazySingleton<InternetConnectivityService>(
+    () => InternetConnectivityService(),
+  );
+
+  // Register connection dialog service
+  getIt.registerLazySingleton<ConnectionDialogService>(
+    () => ConnectionDialogService(),
+  );
 
   getIt.registerLazySingleton<ExerciseRemoteDataSource>(
     () => ExerciseRemoteDataSource(getIt()),

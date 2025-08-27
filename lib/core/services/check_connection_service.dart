@@ -7,7 +7,7 @@ class InternetConnectivityService {
   InternetConnectivityService._internal();
 
   static final InternetConnectivityService instance =
-  InternetConnectivityService._internal();
+      InternetConnectivityService._internal();
 
   factory InternetConnectivityService() => instance;
 
@@ -19,8 +19,21 @@ class InternetConnectivityService {
 
   /// Starts listening to internet connection changes
   void startListening() {
+    // Check initial connection status
+    _checkInitialConnection();
+
     connectivitySubscription =
         connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
+  }
+
+  /// Check initial connection status
+  Future<void> _checkInitialConnection() async {
+    try {
+      final result = await connectivity.checkConnectivity();
+      _updateConnectionStatus(result);
+    } catch (e) {
+      developer.log('Error checking initial connectivity: $e');
+    }
   }
 
   Future<void> _updateConnectionStatus(List<ConnectivityResult> result) async {
@@ -30,6 +43,17 @@ class InternetConnectivityService {
     developer.log("${isOffline.value}");
 
     developer.log('Connectivity changed: $connectionStatus');
+  }
+
+  /// Manually check current connection status
+  Future<bool> checkConnection() async {
+    try {
+      final result = await connectivity.checkConnectivity();
+      return !result.contains(ConnectivityResult.none);
+    } catch (e) {
+      developer.log('Error checking connectivity: $e');
+      return false;
+    }
   }
 
   /// Stops listening to network changes and prevents memory leaks
