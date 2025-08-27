@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../theming/colors.dart';
 
 class CustomErrorWidget extends StatelessWidget {
   final String message;
@@ -14,62 +16,88 @@ class CustomErrorWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(24),
+        padding: EdgeInsets.all(24.w),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // Error Icon with circular fitness style
             Container(
-              padding: const EdgeInsets.all(20),
+              padding: EdgeInsets.all(20.w),
               decoration: BoxDecoration(
-                color: Colors.red.withOpacity(0.1),
+                color: ColorsManager.primaryColor.withOpacity(0.1),
                 shape: BoxShape.circle,
+                border: Border.all(
+                  color: ColorsManager.primaryColor.withOpacity(0.3),
+                  width: 2,
+                ),
               ),
-              child: const Icon(
-                Icons.run_circle_outlined,
-                color: Colors.red,
-                size: 48,
+              child: Icon(
+                Icons.error_outline,
+                color: ColorsManager.primaryColor,
+                size: 48.sp,
               ),
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: 20.h),
 
             // Error Text
             Text(
               "Oops! Something went wrong",
-              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+              style: TextStyle(
+                fontSize: 20.sp,
                 fontWeight: FontWeight.bold,
-                color: Colors.red.shade700,
+                color: ColorsManager.darkColor,
               ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 10),
+            SizedBox(height: 12.h),
 
             // Custom error message
             Text(
               message,
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: Colors.grey[600],
+              style: TextStyle(
+                fontSize: 16.sp,
+                color: ColorsManager.greyColor,
+                height: 1.4,
               ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 24),
+            SizedBox(height: 32.h),
 
             // Retry Button
-            ElevatedButton.icon(
-              onPressed: onRetry,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.green,
-                foregroundColor: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30),
-                ),
-                padding:
-                const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(30),
+                boxShadow: [
+                  BoxShadow(
+                    color: ColorsManager.primaryColor.withOpacity(0.3),
+                    blurRadius: 8,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
               ),
-              icon: const Icon(Icons.refresh),
-              label: const Text(
-                "Try Again",
-                style: TextStyle(fontWeight: FontWeight.bold),
+              child: ElevatedButton.icon(
+                onPressed: onRetry,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: ColorsManager.primaryColor,
+                  foregroundColor: ColorsManager.darkColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 32.w, vertical: 16.h),
+                  elevation: 0,
+                ),
+                icon: Icon(
+                  Icons.refresh,
+                  size: 20.sp,
+                ),
+                label: Text(
+                  "Try Again",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16.sp,
+                  ),
+                ),
               ),
             )
           ],

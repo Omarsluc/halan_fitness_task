@@ -3,8 +3,8 @@ import 'dart:ui';
 class ColorsManager {
 
   /// --> primary colors < -- ///
-  static const Color primaryColor = Color(0xFF007AFF);
-  static const Color secondaryColor = Color(0xFF6C5DD3);
+  static const Color primaryColor = Color(0xFF9cf325);
+  static const Color secondaryColor = Color(0xFF0D1B2A);
   static const Color greenColor = Color(0xFF15BB54);
   static const Color lightGreyColor = Color(0xFFE0E9EE);
   static const Color greyColor = Color(0xFF7D9BAE);

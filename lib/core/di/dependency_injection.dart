@@ -7,6 +7,9 @@ import '../../features/dashboard/logic/dashboard_cubit.dart';
 import '../../features/excercise/logic/exercise_details_cubit.dart';
 import '../../features/progress/data/repo/workout_repo.dart';
 import '../../features/progress/data/repo/workout_repo_impl.dart';
+import '../../features/progress/data/repo/progress_repo.dart';
+import '../../features/progress/data/repo/progress_repo_impl.dart';
+import '../../features/progress/logic/progress_cubit.dart';
 import '../api/api_client.dart';
 import '../models/exercise_remote_data_model.dart';
 import '../services/notifications_service.dart';
@@ -54,9 +57,14 @@ Future<void> configureDependencies() async {
     () => WorkoutRepositoryImpl(getIt()),
   );
 
+  getIt.registerLazySingleton<ProgressRepository>(
+    () => ProgressRepositoryImpl(),
+  );
+
   // Cubits
   getIt.registerLazySingleton<AppCubit>(() => AppCubit());
   getIt.registerFactory<ExerciseDetailCubit>(
       () => ExerciseDetailCubit(getIt(), getIt(), getIt()));
   getIt.registerFactory<DashboardCubit>(() => DashboardCubit(getIt()));
+  getIt.registerFactory<ProgressCubit>(() => ProgressCubit(getIt()));
 }

@@ -8,9 +8,7 @@ class AppButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final bool isLoading;
   final bool active;
-  //final Color backgroundColor;
   final Color? textColor;
-// final EdgeInsets padding;
   final double borderRadius;
   final TextStyle? textStyle;
   final IconData? leadingIcon;
@@ -23,70 +21,98 @@ class AppButton extends StatelessWidget {
     this.active = true,
     required this.onPressed,
     this.isLoading = false,
-    //this.backgroundColor,
     this.textColor,
-    // this.padding = const EdgeInsets.symmetric(horizontal:  horizontalPadding??80, vertical: 15),
-    this.borderRadius = 8.0,
+    this.borderRadius = 12.0,
     this.textStyle,
-    this.leadingIcon, this.horizontalPadding=0, this.verticalPadding=15,
-
+    this.leadingIcon,
+    this.horizontalPadding = 0,
+    this.verticalPadding = 15,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding:EdgeInsets.symmetric(
+      padding: EdgeInsets.symmetric(
         horizontal: horizontalPadding ?? 80,
         vertical: verticalPadding ?? 15,
       ),
       child: SizedBox(
         width: double.infinity,
-        height: 44.h,
-        child: ElevatedButton(
-          onPressed: isLoading || !active? null : onPressed,
-          style: ElevatedButton.styleFrom(
-            backgroundColor: active ? (Theme.of(context).brightness == Brightness.dark )
-                ? ColorsManager.secondaryColor : ColorsManager.primaryColor : ColorsManager.lightGreyColor,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(borderRadius),
-            ),
-
-          ),
-          child: isLoading
-              ? CircularProgressIndicator()
-              :  Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                text,
-                style: textStyle ??
-                    TextStyle(
-                      color: textColor ??
-                          (Theme.of(context).brightness == Brightness.dark
-                              ? Colors.black
-                              : Colors.white),
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w500,
+        height: 48.h,
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(borderRadius),
+            boxShadow: active
+                ? [
+                    BoxShadow(
+                      color: ColorsManager.primaryColor.withOpacity(0.3),
+                      blurRadius: 8,
+                      offset: const Offset(0, 4),
                     ),
+                  ]
+                : null,
+          ),
+          child: ElevatedButton(
+            onPressed: isLoading || !active ? null : onPressed,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: active
+                  ? ColorsManager.primaryColor
+                  : ColorsManager.lightGreyColor,
+              foregroundColor:
+                  active ? ColorsManager.darkColor : ColorsManager.greyColor,
+              elevation: 0,
+              shadowColor: Colors.transparent,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(borderRadius),
               ),
-              if (leadingIcon != null)
-                Padding(
-                  padding: const EdgeInsets.only(right: 8),
-                  child: Icon(
-                    leadingIcon,
-                    size: 20,
-                    color: textColor ?? Colors.white,
+            ),
+            child: isLoading
+                ? SizedBox(
+                    height: 20.h,
+                    width: 20.w,
+                    child: CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                        active
+                            ? ColorsManager.darkColor
+                            : ColorsManager.greyColor,
+                      ),
+                      strokeWidth: 2,
+                    ),
+                  )
+                : Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      if (leadingIcon != null) ...[
+                        Icon(
+                          leadingIcon,
+                          size: 20.sp,
+                          color: active
+                              ? ColorsManager.darkColor
+                              : ColorsManager.greyColor,
+                        ),
+                        SizedBox(width: 8.w),
+                      ],
+                      Text(
+                        text,
+                        style: textStyle ??
+                            TextStyle(
+                              color: textColor ??
+                                  (active
+                                      ? ColorsManager.darkColor
+                                      : ColorsManager.greyColor),
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w600,
+                            ),
+                      ),
+                    ],
                   ),
-                ),
-
-            ],
           ),
         ),
       ),
     );
   }
 }
-
 
 class AppOutlinedButton extends StatelessWidget {
   final String text;
@@ -108,12 +134,12 @@ class AppOutlinedButton extends StatelessWidget {
     required this.onPressed,
     this.isLoading = false,
     this.disabledColor,
-    this.borderRadius = 8.0,
+    this.borderRadius = 12.0,
     this.textStyle,
     this.leadingIcon,
     this.horizontalPadding = 0,
     this.verticalPadding = 15,
-    this.borderWidth = 1.0,
+    this.borderWidth = 2.0,
   }) : super(key: key);
 
   @override
@@ -125,59 +151,86 @@ class AppOutlinedButton extends StatelessWidget {
       ),
       child: SizedBox(
         width: double.infinity,
-        height: 44.h,
-        child: OutlinedButton(
-          onPressed: isLoading || !active ? null : onPressed,
-          style: OutlinedButton.styleFrom(
-            side: BorderSide(
-              color: active
-                  ? (Theme.of(context).brightness == Brightness.dark )
-                  ? ColorsManager.secondaryColor : ColorsManager.primaryColor : Theme.of(context).disabledColor ,
-              width: borderWidth,
-            ),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(borderRadius),
-            ),
-            foregroundColor: active ? (Theme.of(context).brightness == Brightness.dark )
-                ? ColorsManager.secondaryColor : ColorsManager.primaryColor : Theme.of(context).disabledColor ,
-            padding: const EdgeInsets.symmetric(vertical: 12),
-          ),
-          child: isLoading
-              ? CircularProgressIndicator()
-              : Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              if (leadingIcon != null)
-                Padding(
-                  padding: const EdgeInsets.only(right: 8),
-                  child: Icon(
-                    leadingIcon,
-                    size: 20,
-                    color: active ? Theme.of(context).disabledColor : (Theme.of(context).brightness == Brightness.dark )
-                        ? ColorsManager.secondaryColor : ColorsManager.primaryColor,
-                  ),
-                ),
-              Text(
-                text,
-                style: textStyle ??
-                    TextStyle(
-                      color:  active
-                          ? (Theme.of(context).brightness == Brightness.dark )
-                          ? ColorsManager.secondaryColor : ColorsManager.primaryColor : Theme.of(context).disabledColor ,
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w500,
+        height: 48.h,
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(borderRadius),
+            boxShadow: active
+                ? [
+                    BoxShadow(
+                      color: ColorsManager.primaryColor.withOpacity(0.2),
+                      blurRadius: 6,
+                      offset: const Offset(0, 2),
                     ),
+                  ]
+                : null,
+          ),
+          child: OutlinedButton(
+            onPressed: isLoading || !active ? null : onPressed,
+            style: OutlinedButton.styleFrom(
+              side: BorderSide(
+                color: active
+                    ? ColorsManager.primaryColor
+                    : ColorsManager.greyColor.withOpacity(0.5),
+                width: borderWidth,
               ),
-            ],
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(borderRadius),
+              ),
+              foregroundColor: active
+                  ? ColorsManager.primaryColor
+                  : ColorsManager.greyColor.withOpacity(0.5),
+              padding: EdgeInsets.symmetric(vertical: 12.h),
+              backgroundColor: active
+                  ? ColorsManager.primaryColor.withOpacity(0.05)
+                  : Colors.transparent,
+            ),
+            child: isLoading
+                ? SizedBox(
+                    height: 20.h,
+                    width: 20.w,
+                    child: CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                        active
+                            ? ColorsManager.primaryColor
+                            : ColorsManager.greyColor.withOpacity(0.5),
+                      ),
+                      strokeWidth: 2,
+                    ),
+                  )
+                : Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      if (leadingIcon != null) ...[
+                        Icon(
+                          leadingIcon,
+                          size: 20.sp,
+                          color: active
+                              ? ColorsManager.primaryColor
+                              : ColorsManager.greyColor.withOpacity(0.5),
+                        ),
+                        SizedBox(width: 8.w),
+                      ],
+                      Text(
+                        text,
+                        style: textStyle ??
+                            TextStyle(
+                              color: active
+                                  ? ColorsManager.primaryColor
+                                  : ColorsManager.greyColor.withOpacity(0.5),
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w600,
+                            ),
+                      ),
+                    ],
+                  ),
           ),
         ),
       ),
     );
   }
 }
-
-
 
 class SecondryAppButton extends StatelessWidget {
   final String text;
@@ -191,15 +244,36 @@ class SecondryAppButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: ColorsManager.secondaryColor.withOpacity(0.3),
+            blurRadius: 8,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-          backgroundColor: Theme.of(context).primaryColor, // Button color
+          backgroundColor: ColorsManager.secondaryColor,
+          foregroundColor: Colors.white,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8), // Rounded corners
+            borderRadius: BorderRadius.circular(12),
           ),
-          padding: EdgeInsets.symmetric(horizontal: 80, vertical: 8),
+          padding: EdgeInsets.symmetric(horizontal: 80, vertical: 16.h),
+          elevation: 0,
         ),
-        child: Text(text, style: Theme.of(context).textTheme.bodyMedium));
+        child: Text(
+          text,
+          style: TextStyle(
+            fontSize: 16.sp,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ),
+    );
   }
 }
