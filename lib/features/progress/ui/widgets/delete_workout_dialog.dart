@@ -33,10 +33,7 @@ class DeleteWorkoutDialog extends StatelessWidget {
           SizedBox(width: 12.w),
           Text(
             'Delete Workout',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: ColorsManager.darkColor,
-            ),
+            style: Theme.of(context).textTheme.titleLarge
           ),
         ],
       ),
@@ -71,8 +68,8 @@ class DeleteWorkoutDialog extends StatelessWidget {
           ),
           child: ElevatedButton(
             onPressed: () {
-              Navigator.of(context).pop();
               onConfirm();
+              Navigator.of(context).pop();
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.red,

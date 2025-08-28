@@ -303,11 +303,7 @@ class _WeeklyChartState extends State<WeeklyChart>
         SizedBox(height: 4.h),
         Text(
           value,
-          style: TextStyle(
-            fontSize: 16.sp,
-            fontWeight: FontWeight.bold,
-            color: ColorsManager.darkColor,
-          ),
+          style: Theme.of(context).textTheme.bodyLarge
         ),
         Text(
           label,

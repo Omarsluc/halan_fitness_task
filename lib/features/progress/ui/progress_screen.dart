@@ -3,9 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../core/theming/colors.dart';
 import '../logic/progress_cubit.dart';
-import 'widgets/progress_stats_card.dart';
 import 'widgets/weekly_chart.dart';
-import 'widgets/workout_history_item.dart';
 import 'widgets/progress_overview_section.dart';
 import 'widgets/workout_history_section.dart';
 import 'widgets/progress_loading_widget.dart';
@@ -27,7 +25,6 @@ class _ProgressScreenState extends State<ProgressScreen> {
     // Load progress data when screen initializes
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<ProgressCubit>().loadProgress();
-      context.read<ProgressCubit>().refreshProgress();
     });
   }
 
@@ -104,13 +101,13 @@ class _ProgressScreenState extends State<ProgressScreen> {
   }
 
   void _showDeleteDialog(BuildContext context, String workoutId) {
+    final progressCubit = context.read<ProgressCubit>();
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return DeleteWorkoutDialog(
           onConfirm: () {
-            Navigator.of(context).pop();
-            context.read<ProgressCubit>().deleteWorkout(workoutId);
+            progressCubit.deleteWorkout(workoutId);
           },
         );
       },
